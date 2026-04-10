@@ -1,11 +1,11 @@
 lint:
-	poetry run pylint src
+	ruff check src tests
 
 format:
-	poetry run black src
+	ruff check --fix src tests
 
 test:
-	poetry run pytest tests
+	pytest tests
 
 cicd:
 	[ ! -f "$(CURDIR)/pyproject.toml" ] && echo "pyproject.toml file not found. Please run 'poetry init' to create one."
