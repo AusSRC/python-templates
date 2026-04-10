@@ -36,6 +36,17 @@ dev = [
 
 ## Github Actions
 
+We have defined workflow templates here to be used in your custom CI/CD workflows. You can read more [in the docs](https://docs.github.com/en/actions/how-tos/write-workflows/use-workflow-templates). An example of calling a workflow template from a Python project root level `.gitlab/workflows/ci.yml` pipeline is shown below
+
+```
+name: cicd
+on:
+  [push, pull_request]
+jobs:
+  lint:
+    uses: AusSRC/python-templates/.github/workflows/lint.yml@main
+```
+
 ## Confluence pages
 
 * [Code conventions](https://aussrc.atlassian.net/wiki/spaces/DEV/pages/2224259081/Code+Conventions+and+standards+WIP)
