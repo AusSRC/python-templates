@@ -7,14 +7,20 @@ format:
 test:
 	pytest tests
 
+PYPROJECT_FILE := $(CURDIR)/pyproject.toml
+CHANGELOG_FILE := $(CURDIR)/CHANGELOG.md
+REQUIRED_FILES := $(PYPROJECT_FILE) $(CHANGELOG_FILE)
+
 cicd:
-	@if [ ! -f "$(CURDIR)/pyproject.toml" ]; then \
-		echo "pyproject.toml file not found. Please create one."; \
-		exit 1; \
-	fi
-	@if [ ! -f "$(CURDIR)/CHANGELOG.md" ]; then \
-		echo "CHANGELOG.md file not found. Please create one."; \
-		exit 1; \
-	fi
-	make lint || { echo "Linting failed"; exit 1; }
-	make format || { echo "Formatting failed"; exit 1; }
+	@echo "Running CI/CD checks..."
+	@for file in $(REQUIRED_FILES); do \
+		echo "Checking $$file"; \
+		if [ ! -f "$$file" ]; then \
+			echo "$$file not found. Please create one."; \
+			exit 1; \
+		fi; \
+	done
+	@echo "All required files are present."
+	@echo "Running linting and formatting checks..."
+	@${MAKE} lint
+	@${MAKE} format
