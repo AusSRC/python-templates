@@ -8,7 +8,13 @@ test:
 	pytest tests
 
 cicd:
-	[ ! -f "$(CURDIR)/pyproject.toml" ] && echo "pyproject.toml file not found. Please run 'poetry init' to create one."
-	[ ! -f "$(CURDIR)/CHANGELOG.md" ] && echo "CHANGELOG.md file not found. Please run create one."
+	@if [ ! -f "$(CURDIR)/pyproject.toml" ]; then \
+		echo "pyproject.toml file not found. Please create one."; \
+		exit 1; \
+	fi
+	@if [ ! -f "$(CURDIR)/CHANGELOG.md" ]; then \
+		echo "CHANGELOG.md file not found. Please create one."; \
+		exit 1; \
+	fi
 	make lint || { echo "Linting failed"; exit 1; }
 	make format || { echo "Formatting failed"; exit 1; }
